@@ -5,7 +5,7 @@
 #include <ctype.h>
 #define MAX_LINE_LENGTH 1000
 #define NUM_WORD 50
-#define ALLOWED_INPUT_SIZE 10
+#define ALLOWED_INPUT_SIZE 3
 int main() {
     // FILE    *textfile;
     // char    line[MAX_LINE_LENGTH];
@@ -30,19 +30,22 @@ int main() {
     // printf("%d", chosen_index);
     // return 0;
 
-    // printf("Enter a word: ");
-    // char guess[ALLOWED_INPUT_SIZE];
-    // fgets(guess, ALLOWED_INPUT_SIZE, stdin);
-    // guess[strcspn( guess, "\n" )] = '\0';
+    printf("Enter a word: ");
+    char guess[ALLOWED_INPUT_SIZE];
+    fgets(guess, ALLOWED_INPUT_SIZE, stdin);
+    fflush(stdin);
+    guess[strcspn( guess, "\n" )] = '\0';
     // printf("%d", strlen(guess));
-    // while(strlen(guess) != 1){
-    //     fgets(guess, ALLOWED_INPUT_SIZE, stdin);
-    //     guess[strcspn( guess, "\n" )] = '\0';
-    //     printf("%d", strlen(guess));
-    // }
-    // printf("%d", strlen(guess));
+    while(strlen(guess) != 1 || !isalpha(guess[0])){
+        printf("Enter a word: ");
+        fgets(guess, ALLOWED_INPUT_SIZE, stdin);
+        fflush(stdin);
+        guess[strcspn( guess, "\n" )] = '\0';
+        printf("%d", strlen(guess));
+    }
+    printf("%d", strlen(guess));
 
-    char a = '_';
-    printf("%c", a);
+    // char a = '_';
+    // printf("%c", a);
 }
 
