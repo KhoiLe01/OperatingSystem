@@ -35,12 +35,12 @@ int main(){
     } while (!won(word, game_state) && wrong < 7);
     if (won(word, game_state)){
         print_game_state(word, game_state, already_guessed);
-        printf("Congratulations! The word was %.*s.", strlen(word)-1, word);
+        printf("Congratulations! The word was %.*s.\n", (int)(strlen(word)-1), word);
     }
     else {
         print_game_state(word, game_state, already_guessed);
         printf("You lost and made stick-person sad...\n");
-        printf("The word was %.*s.", strlen(word)-1, word);
+        printf("The word was %.*s.\n", (int)(strlen(word)-1), word);
     }
     return 0;
 }

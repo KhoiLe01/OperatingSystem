@@ -33,17 +33,22 @@ int main() {
     printf("Enter a word: ");
     char guess[ALLOWED_INPUT_SIZE];
     fgets(guess, ALLOWED_INPUT_SIZE, stdin);
-    fflush(stdin);
-    guess[strcspn( guess, "\n" )] = '\0';
-    // printf("%d", strlen(guess));
-    while(strlen(guess) != 1 || !isalpha(guess[0])){
-        printf("Enter a word: ");
-        fgets(guess, ALLOWED_INPUT_SIZE, stdin);
-        fflush(stdin);
-        guess[strcspn( guess, "\n" )] = '\0';
-        printf("%d", strlen(guess));
+    //guess[strcspn( guess, "\n" )] = '\0';
+    //printf("%d\n", strlen(guess));
+    if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
+    	return 0;
     }
-    printf("%d", strlen(guess));
+    while (strchr(guess, '\n') == NULL) {
+    	int c;
+    	while((c = getc(stdin)) != '\n' && c != EOF);
+    	printf("Enter a word: ");
+    	fgets(guess, ALLOWED_INPUT_SIZE, stdin);
+    	if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
+    		return 0;
+    	}
+    	//guess[strcspn( guess, "\n" )] = '\0';
+	}
+    //printf("%d", strlen(guess));
 
     // char a = '_';
     // printf("%c", a);
