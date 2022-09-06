@@ -1,5 +1,8 @@
 #include <stdio.h>
-#include "hangfunctions.c"
+// #include "hangfunctions.c"
+#include "hangfunctions.h"
+#include <stdbool.h>
+#include <string.h>
 
 int main(){
     char word[20];
@@ -10,9 +13,6 @@ int main(){
     int wrong = 0;
 
     initialize_game_state(word, game_state, already_guessed);
-    printf("%s\n", word);
-    printf("%d\n", strlen(word));
-    printf("last %c\n", word[strlen(word)-1]);
     do {
         print_game_state(word, game_state, already_guessed);
         bool validChar;
@@ -34,10 +34,13 @@ int main(){
         }
     } while (!won(word, game_state) && wrong < 7);
     if (won(word, game_state)){
+        print_game_state(word, game_state, already_guessed);
         printf("Congratulations! The word was %.*s.", strlen(word)-1, word);
     }
     else {
         print_game_state(word, game_state, already_guessed);
+        printf("You lost and made stick-person sad...\n");
+        printf("The word was %.*s.", strlen(word)-1, word);
     }
     return 0;
 }

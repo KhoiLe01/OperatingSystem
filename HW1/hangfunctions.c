@@ -3,16 +3,21 @@
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
-
-#define bool char
-#define FALSE 0
-#define TRUE 1
+#include <stdbool.h>
 
 #define MAX_LINE_LENGTH 1000
 #define NUM_WORD 50
 #define MAX_INPUT_SIZE 3
 
-extern char pic[8][20] = {"|||========|||", "|||", "|||", "|||", "|||", "|||", "|||", "================="};
+void initialize_game_state(char word[], char game_state[], bool already_guessed[26]);
+bool update_game_state(char guess, const char word[], char game_state[]);
+void print_game_state(const char word[], char game_state[], bool already_guessed[26]);
+char get_guess(void);
+bool won(const char word[], char game_state[]);
+bool previous_guess(char guess, bool already_guessed[26]);
+
+
+char pic[8][20] = {"|||========|||", "|||", "|||", "|||", "|||", "|||", "|||", "================="};
 
 void initialize_game_state(char word[], char game_state[], bool already_guessed[26]){
     FILE    *textfile;
@@ -33,24 +38,26 @@ void initialize_game_state(char word[], char game_state[], bool already_guessed[
     srand(time(NULL)); 
     int chosen_index = rand() % NUM_WORD;
     int chosen_len = strlen(words[chosen_index])-1;
-    printf("Chosen length %d\n", chosen_len);
     char new_game_state[chosen_len];
     for (int i = 0; i<chosen_len; i++){
         strcpy(&new_game_state[i], "_");
     }
     for (int i = 0; i<26; i++){
-        already_guessed[i] = FALSE;
+        already_guessed[i] = false;
     }
 
     strncpy(game_state, new_game_state, chosen_len);
     strcpy(word, words[chosen_index]);
+    for (int i = 0; i< chosen_len; i++){
+        word[i] = toupper(word[i]);
+    }
 }
 
 bool update_game_state(char guess, const char word[], char game_state[]){
-    bool found = FALSE;
+    bool found = false;
     for (int i = 0; i<strlen(word)-1; i++){
         if (word[i] == guess){
-            found = TRUE;
+            found = true;
             game_state[i] = guess;
         }
     }
@@ -83,7 +90,6 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
         }
     }
     int incorrectGuess = allGuess - correctGuess;
-    printf("%d %d %d", allGuess, correctGuess ,incorrectGuess);
 
     switch(incorrectGuess){
         case 1:
@@ -118,7 +124,7 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
         printf("%s\n", pic[i]);
     }
     printf("\n");
-    if (incorrectGuess < 7) {
+    if (incorrectGuess < 7 && !won(word, game_state)){
         for (i = 0; i<strlen(word)-1; i++){
             if (i == strlen(word)-2){
                 printf("%c\n", game_state[i]);
@@ -130,15 +136,11 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
         printf("Already guessed: ");
         for (i = 0; i< 26; i++){
             if (already_guessed[i]) {
-                char temp = 'a' + i;
+                char temp = 'A' + i;
                 printf("%c", temp);
             }
         }
         printf("\n\n");
-    }
-    else {
-        printf("You lost and made stick-person sad...\n");
-        printf("The word was %.*s.", strlen(word)-1, word);
     }
 };
 
@@ -154,25 +156,25 @@ char get_guess(void){
         fflush(stdin);
         guess[strcspn( guess, "\n" )] = '\0';
     }
-    return guess[0];
+    return toupper(guess[0]);
 }
 
 bool won(const char word[], char game_state[]){
     for (int i = 0; i<strlen(word)-1; i++){
         if (!isalpha(game_state[i])){
-            return FALSE;
+            return false;
         }
     }
-    return TRUE;
+    return true;
 }
 
 bool previous_guess(char guess, bool already_guessed[26]){
-    int num = guess - 'a';
+    int num = guess - 'A';
     if (already_guessed[num]){
         return already_guessed[num];
     }
     else {
-        already_guessed[num] = TRUE;
-        return FALSE;
+        already_guessed[num] = true;
+        return false;
     }
 }
