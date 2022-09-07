@@ -17,6 +17,8 @@ int main(){
     printf("Initialize successful!\n");
     assert(test_previous_guess() == 0);
     printf("Previous test successful!\n");
+    assert(test_get_guess() == 0);
+    printf("Get guess successful!\n");
     return 0;
 }
 
@@ -54,6 +56,32 @@ int test_initialize_game_state() {
     return 0;
 }
 
+int test_get_guess() {
+    char guess;
+
+    // Test 1
+    guess = get_guess();
+    assert(guess == 'A');
+
+    // Test 2
+    guess = get_guess();
+    assert(guess == 'D');
+
+    // Test 3
+    guess = get_guess();
+    assert(guess == 'Y');
+
+    // Test 4
+    guess = get_guess();
+    assert(guess == 'A');
+
+    // Test 5
+    guess = get_guess();
+    assert(guess == 'R');
+
+    return 0;
+}
+
 int test_won() {
 
 }
@@ -66,6 +94,7 @@ int test_previous_guess() {
     for (int i = 0; i<26; i++){
         already_guessed[i] = false;
     }
+    assert(already_guessed[indx] == false);
     assert(previous_guess(guess, already_guessed) == false);
     assert(already_guessed[indx] == true);
 
@@ -76,6 +105,7 @@ int test_previous_guess() {
         already_guessed[i] = false;
     }
     already_guessed[indx] = true;
+    assert(already_guessed[indx] == true);
     assert(previous_guess(guess, already_guessed) == true);
     assert(already_guessed[indx] == true);
 
