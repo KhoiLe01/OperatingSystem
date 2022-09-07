@@ -29,25 +29,29 @@ int main() {
     // int chosen_index = rand();
     // printf("%d", chosen_index);
     // return 0;
+    // char guess[ALLOWED_INPUT_SIZE];
+    // fgets(guess, ALLOWED_INPUT_SIZE, stdin);
+    // return 0;
 
-    printf("Enter a word: ");
     char guess[ALLOWED_INPUT_SIZE];
-    fgets(guess, ALLOWED_INPUT_SIZE, stdin);
-    //guess[strcspn( guess, "\n" )] = '\0';
-    //printf("%d\n", strlen(guess));
-    if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
-    	return 0;
+    while (1){
+        printf("What is your guess? ");
+        fgets(guess, ALLOWED_INPUT_SIZE, stdin);
+        //guess[strcspn( guess, "\n" )] = '\0';
+        //printf("%d\n", strlen(guess));
+        if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
+            break;
+        } else if (guess[0] == '\n') {
+            continue;
+        } 
+        else {
+            int c;
+    	    while((c = getc(stdin)) != '\n' && c != EOF);
+        }
     }
-    while (strchr(guess, '\n') == NULL) {
-    	int c;
-    	while((c = getc(stdin)) != '\n' && c != EOF);
-    	printf("Enter a word: ");
-    	fgets(guess, ALLOWED_INPUT_SIZE, stdin);
-    	if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
-    		return 0;
-    	}
-    	//guess[strcspn( guess, "\n" )] = '\0';
-	}
+    printf("%c\n", guess[0]);
+    return 0;
+
     //printf("%d", strlen(guess));
 
     // char a = '_';

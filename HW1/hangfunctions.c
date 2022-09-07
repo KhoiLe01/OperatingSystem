@@ -145,16 +145,21 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
 };
 
 char get_guess(void){
-    printf("What is your guess? ");
     char guess[MAX_INPUT_SIZE];
-    fgets(guess, MAX_INPUT_SIZE, stdin);
-    fflush(stdin);
-    guess[strcspn( guess, "\n" )] = '\0';
-    while(strlen(guess) != 1 || !isalpha(guess[0])){
+    while (1){
         printf("What is your guess? ");
         fgets(guess, MAX_INPUT_SIZE, stdin);
-        fflush(stdin);
-        guess[strcspn( guess, "\n" )] = '\0';
+        //guess[strcspn( guess, "\n" )] = '\0';
+        //printf("%d\n", strlen(guess));
+        if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
+            break;
+        } else if (guess[0] == '\n') {
+            continue;
+        } 
+        else {
+            int c;
+    	    while((c = getc(stdin)) != '\n' && c != EOF);
+        }
     }
     return toupper(guess[0]);
 }
