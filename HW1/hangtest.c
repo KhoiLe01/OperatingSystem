@@ -4,6 +4,8 @@
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 int test_initialize_game_state();
 int test_update_game_state();
@@ -17,7 +19,9 @@ int main(){
     printf("Initialize successful!\n");
     assert(test_previous_guess() == 0);
     printf("Previous test successful!\n");
+    
     assert(test_get_guess() == 0);
+
     printf("Get guess successful!\n");
     return 0;
 }
@@ -58,7 +62,8 @@ int test_initialize_game_state() {
 
 int test_get_guess() {
     char guess;
-
+    int saved_stdout = dup(1);
+    close(1);
     // Test 1
     guess = get_guess();
     assert(guess == 'A');
@@ -78,13 +83,14 @@ int test_get_guess() {
     // Test 5
     guess = get_guess();
     assert(guess == 'R');
-
+    
+    dup2(saved_stdout, 1);
     return 0;
 }
 
-int test_won() {
-
-}
+//int test_won() {
+//
+//}
 
 int test_previous_guess() {
     // test 1

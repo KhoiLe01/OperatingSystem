@@ -33,23 +33,14 @@ int main() {
     // fgets(guess, ALLOWED_INPUT_SIZE, stdin);
     // return 0;
 
-    char guess[ALLOWED_INPUT_SIZE];
-    while (1){
-        printf("What is your guess? ");
-        fgets(guess, ALLOWED_INPUT_SIZE, stdin);
-        //guess[strcspn( guess, "\n" )] = '\0';
-        //printf("%d\n", strlen(guess));
-        if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
-            break;
-        } else if (guess[0] == '\n') {
-            continue;
-        } 
-        else {
-            int c;
-    	    while((c = getc(stdin)) != '\n' && c != EOF);
-        }
-    }
-    printf("%c\n", guess[0]);
+
+
+
+
+    freopen ("/dev/null", "w", stdout); // or "nul" instead of "/dev/null"
+    printf("asd1");
+    fclose(stdout);
+
     return 0;
 
     //printf("%d", strlen(guess));

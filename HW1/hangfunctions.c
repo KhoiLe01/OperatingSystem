@@ -212,7 +212,7 @@ char get_guess(void){
     This function gets the input character from the user
     */
 
-    // Initiate the guess array to only store 3 characters
+    // Initiate the guess array to only store 2 characters
     char guess[MAX_INPUT_SIZE];
     while (1){
         // Prompt the user for the input
@@ -220,10 +220,15 @@ char get_guess(void){
         fgets(guess, MAX_INPUT_SIZE, stdin);
 
         // If the user input 1 valid character and hit enter (\n), break the loop to return
-        if (strlen(guess)==2 && isalpha(guess[0]) && strchr(guess, '\n') != NULL){
-            break;
+        if (strlen(guess)==2 && guess[1] == '\n'){
+            if (isalpha(guess[0])){
+            	break;
+            }
+            else {
+            	continue;
+            }
         } 
-        // If the user only hit enter, continue to prompt for input
+        // If the user only hit enter or enter an invalid input, continue to prompt for input
         else if (guess[0] == '\n') {
             continue;
         } 
