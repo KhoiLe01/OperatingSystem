@@ -14,6 +14,6 @@ hangtest.o: hangtest.c
 	gcc -Wall -c hangtest.c
 
 clean:
-	rm *.o
-	rm *.exe
-	rm *.out
+	rm -f *.o
+	rm -f main
+	rm -f test

@@ -16,11 +16,9 @@ void initialize_game_state(char word[], char game_state[], bool already_guessed[
 bool update_game_state(char guess, const char word[], char game_state[]);
 void print_game_state(const char word[], char game_state[], bool already_guessed[26]);
 char get_guess(void);
+char get_guess_for_testing(void);
 bool won(const char word[], char game_state[]);
 bool previous_guess(char guess, bool already_guessed[26]);
-
-// Define the global variable to draw the state of the game
-char pic[8][20] = {"|||========|||", "|||", "|||", "|||", "|||", "|||", "|||", "================="};
 
 void initialize_game_state(char word[], char game_state[], bool already_guessed[26]){
     /*
@@ -112,6 +110,8 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
 
     This function prints the game state, including the game_state array, the hangman picture and the number of misses.
     */
+    
+    char pic[8][20] = {"|||========|||", "|||", "|||", "|||", "|||", "|||", "|||", "================="};
 
     // Calculate the total number of guesses
     int allGuess = 0;
@@ -127,7 +127,7 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
         correctGuess = 1;
     }
     int i, j = 0;
-    for (i = 1; i<strlen(word); i++){
+    for (i = 1; i<strlen(game_state); i++){
         if (isalpha(game_state[i])){
             for (j = 0; j<i; j++){
                 if (game_state[i] == game_state[j]){
@@ -149,21 +149,34 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
             strcpy(pic[1], "||| |");
             break;
         case 2:
+        	strcpy(pic[1], "||| |");
             strcpy(pic[2], "||| O");
             break;
         case 3:
+        	strcpy(pic[1], "||| |");
+            strcpy(pic[2], "||| O");
             strcpy(pic[3], "||| /");
             break;
         case 4:
+        	strcpy(pic[1], "||| |");
+            strcpy(pic[2], "||| O");
             strcpy(pic[3], "||| /|");
             break;
         case 5:
+        	strcpy(pic[1], "||| |");
+            strcpy(pic[2], "||| O");
             strcpy(pic[3], "||| /|\\");
             break;
         case 6:
+        	strcpy(pic[1], "||| |");
+            strcpy(pic[2], "||| O");
+            strcpy(pic[3], "||| /|\\");
             strcpy(pic[4], "||| /");
             break;
         case 7:
+        	strcpy(pic[1], "||| |");
+            strcpy(pic[2], "||| O");
+            strcpy(pic[3], "||| /|\\");
             strcpy(pic[4], "||| / \\");
             break;
         default:
@@ -184,8 +197,8 @@ void print_game_state(const char word[], char game_state[], bool already_guessed
 
     // If we have not lost or won, print the game state and already guessed letters.
     if (incorrectGuess < 7 && !won(word, game_state)){
-        for (i = 0; i<strlen(word); i++){
-            if (i == strlen(word)-1){
+        for (i = 0; i<strlen(game_state); i++){
+            if (i == strlen(game_state)-1){
                 printf("%c\n", game_state[i]);
             }
             else {
@@ -217,6 +230,48 @@ char get_guess(void){
     while (1){
         // Prompt the user for the input
         printf("What is your guess? ");
+        fgets(guess, MAX_INPUT_SIZE, stdin);
+
+        // If the user input 1 character and hit enter (\n)
+        if (strlen(guess)==2 && guess[1] == '\n'){
+        	// If the character is valid, break the loop
+            if (isalpha(guess[0])){
+            	break;
+            }
+            // If the character is not valid, continue
+            else {
+            	continue;
+            }
+        } 
+        // If the user only hit enter or enter an invalid input, continue to prompt for input
+        else if (guess[0] == '\n') {
+            continue;
+        } 
+        // Else, since fgets continue to read characters beyond MAX_INPUT_SIZE-1 in the buffer, we have to clear everything after it
+        else {
+            int c;
+    	    while((c = getc(stdin)) != '\n' && c != EOF);
+        }
+    }
+
+    // Return the first character
+    return toupper(guess[0]);
+}
+
+char get_guess_for_testing(void){
+    /*
+    Param: None
+    
+    Return: None
+
+    This function is identical to get_guess, but it is used for testing, meaning
+    that it print nothing in stdout
+    */
+
+    // Initiate the guess array to only store 2 characters
+    char guess[MAX_INPUT_SIZE];
+    while (1){
+        // Prompt the user for the input
         fgets(guess, MAX_INPUT_SIZE, stdin);
 
         // If the user input 1 valid character and hit enter (\n), break the loop to return
@@ -255,7 +310,7 @@ bool won(const char word[], char game_state[]){
     */
 
     // The user wins if the game state contains only valid character
-    for (int i = 0; i<strlen(word); i++){
+    for (int i = 0; i<strlen(game_state); i++){
         if (!isalpha(game_state[i])){
             return false;
         }
