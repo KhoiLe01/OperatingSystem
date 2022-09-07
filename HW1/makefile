@@ -9,5 +9,5 @@ hangperson.o: hangperson.c
 
 clean:
 	rm *.o
-	rm *exe
+	rm *.exe
 	em *.out
